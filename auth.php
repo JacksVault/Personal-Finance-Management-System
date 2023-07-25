@@ -84,6 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
 
         // Registration successful, set user session and redirect to index
         $_SESSION['user_id'] = $db_conn->lastInsertId();
+        $_SESSION['username'] = $register_username; // Set the 'username' session variable here
+
         header("Location: index.php");
         exit;
     } catch (PDOException $e) {
@@ -92,6 +94,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
     }
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html>
