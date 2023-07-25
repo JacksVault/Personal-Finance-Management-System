@@ -31,7 +31,7 @@ This is a simple Personal Finance Management System web application built with P
 1. Clone the repository to your local web server directory:
 
 ```bash
-git clone https://github.com/your-username/personal-finance-management.git
+git clone https://github.com/JacksVault/learn-php-main.git
 ```
 
 2. Import the database schema and sample data using the `pfund_db.sql` file provided in the project's root directory:
