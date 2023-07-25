@@ -2,8 +2,8 @@
 // Database credentials
 $db_host = 'localhost';     // Change this to your database host
 $db_name = 'pfund_db';      // Change this to your database name
-$db_user = 'your_username'; // Change this to your database username
-$db_pass = 'your_password'; // Change this to your database password
+$db_user = 'root'; // Change this to your database username
+$db_pass = ''; // Change this to your database password
 
 // Establish a connection to the database
 try {
