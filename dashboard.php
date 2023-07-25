@@ -15,8 +15,9 @@ if (!isset($_SESSION['user_id'])) {
 // Function to calculate the total income
 function getTotalIncome($db_conn)
 {
-    $query = "SELECT SUM(amount) AS total_income FROM Income";
+    $query = "SELECT SUM(amount) AS total_income FROM Income WHERE UserID = :user_id";
     $stmt = $db_conn->prepare($query);
+    $stmt->bindParam(':user_id', $_SESSION['user_id']);
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     return $result['total_income'] ? $result['total_income'] : 0;
@@ -25,16 +26,26 @@ function getTotalIncome($db_conn)
 // Function to calculate the total expenditure
 function getTotalExpenditure($db_conn)
 {
-    $query = "SELECT SUM(amount_spent) AS total_expenditure FROM Expenditure";
+    $query = "SELECT SUM(amount_spent) AS total_expenditure FROM Expenditure WHERE UserID = :user_id";
     $stmt = $db_conn->prepare($query);
+    $stmt->bindParam(':user_id', $_SESSION['user_id']);
     $stmt->execute();
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     return $result['total_expenditure'] ? $result['total_expenditure'] : 0;
 }
 
-// Get total income and expenditure from the database
+// Get the total income and total expenditure
 $totalIncome = getTotalIncome($db_conn);
 $totalExpenditure = getTotalExpenditure($db_conn);
+
+// Handle user logout
+if (isset($_GET['logout'])) {
+    // Clear the session data and redirect to login page
+    session_unset();
+    session_destroy();
+    header("Location: auth.php");
+    exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -48,44 +59,40 @@ $totalExpenditure = getTotalExpenditure($db_conn);
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="#">Personal Finance Manage</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="income_form.php">Capture Income</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="expense_form.php">Capture Expenditure</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="budget_form.php">Capture Budget</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="reports.php">View Reports</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="logout.php">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
     <div class="container mt-5">
         <h1>Welcome, <?php echo $_SESSION['username']; ?>!</h1>
-        <h2>Summary of Your Financial Data:</h2>
-        <p>Total Income: $<?php echo number_format($totalIncome, 2); ?></p>
-        <p>Total Expenditure: $<?php echo number_format($totalExpenditure, 2); ?></p>
-        <p>Net Savings: $<?php echo number_format($totalIncome - $totalExpenditure, 2); ?></p>
+        <p>Here's a summary of your financial data:</p>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Total Income</td>
+                    <td>$<?php echo number_format($totalIncome, 2); ?></td>
+                </tr>
+                <tr>
+                    <td>Total Expenditure</td>
+                    <td>$<?php echo number_format($totalExpenditure, 2); ?></td>
+                </tr>
+                <tr>
+                    <td>Net Savings</td>
+                    <td>$<?php echo number_format($totalIncome - $totalExpenditure, 2); ?></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>Navigation Links:</h2>
+        <ul>
+            <li><a href="income_form.php">Capture Income</a></li>
+            <li><a href="expense_form.php">Capture Expenditure</a></li>
+            <li><a href="budget_form.php">Capture Budget</a></li>
+            <li><a href="reports.php">View Reports</a></li>
+            <li><a href="dashboard.php?logout=true">Logout</a></li>
+        </ul>
     </div>
 
     <!-- Add your additional HTML content here -->

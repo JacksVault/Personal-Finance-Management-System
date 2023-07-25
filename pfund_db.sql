@@ -17,19 +17,23 @@ CREATE TABLE IF NOT EXISTS Users (
 -- Create the Income table
 CREATE TABLE IF NOT EXISTS Income (
   Id INT AUTO_INCREMENT PRIMARY KEY,
+  UserID INT NOT NULL,
   source VARCHAR(100) NOT NULL,
   amount DECIMAL(10, 2) NOT NULL,
   date DATE NOT NULL,
-  details TEXT
+  details TEXT,
+  FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
 -- Create the Expenditure table
 CREATE TABLE IF NOT EXISTS Expenditure (
   id INT AUTO_INCREMENT PRIMARY KEY,
+  UserID INT NOT NULL,
   date DATE NOT NULL,
   particulars VARCHAR(100) NOT NULL,
   amount_spent DECIMAL(10, 2) NOT NULL,
-  category VARCHAR(50) NOT NULL
+  category VARCHAR(50) NOT NULL,
+  FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
 -- Create the Ex_Category table
