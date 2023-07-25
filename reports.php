@@ -146,44 +146,57 @@ $budgetData = getBudgetData($db_conn);
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <!-- Load Google Charts -->
-    <script type="text/javascript">
-        google.charts.load('current', {'packages':['corechart']});
-        google.charts.setOnLoadCallback(drawCharts);
+<script type="text/javascript">
+    google.charts.load('current', {'packages': ['corechart']});
+    google.charts.setOnLoadCallback(drawCharts);
 
-        function drawCharts() {
-            var incomeData = google.visualization.arrayToDataTable([
-                ['Date', 'Amount'],
-                <?php foreach ($incomeData as $income) : ?>
-                    ['<?php echo $income['date']; ?>', <?php echo $income['amount']; ?>],
-                <?php endforeach; ?>
-            ]);
+    function formatDate(dateString) {
+        // Convert the PHP date format to JavaScript Date format (YYYY-MM-DD)
+        var parts = dateString.split('-');
+        return new Date(parts[0], parts[1] - 1, parts[2]);
+    }
 
-            var expenditureData = google.visualization.arrayToDataTable([
-                ['Date', 'Amount'],
-                <?php foreach ($expenditureData as $expenditure) : ?>
-                    ['<?php echo $expenditure['date']; ?>', <?php echo $expenditure['amount_spent']; ?>],
-                <?php endforeach; ?>
-            ]);
+    function drawCharts() {
+        var incomeData = google.visualization.arrayToDataTable([
+            ['Date', 'Amount'],
+            <?php foreach ($incomeData as $income) : ?>
+                [formatDate('<?php echo $income['date']; ?>'), <?php echo $income['amount']; ?>],
+            <?php endforeach; ?>
+        ]);
 
-            var incomeOptions = {
-                title: 'Income Curve Graph',
-                curveType: 'function',
-                legend: { position: 'bottom' }
-            };
+        var expenditureData = google.visualization.arrayToDataTable([
+            ['Date', 'Amount'],
+            <?php foreach ($expenditureData as $expenditure) : ?>
+                [formatDate('<?php echo $expenditure['date']; ?>'), <?php echo $expenditure['amount_spent']; ?>],
+            <?php endforeach; ?>
+        ]);
 
-            var expenditureOptions = {
-                title: 'Expenditure Curve Graph',
-                curveType: 'function',
-                legend: { position: 'bottom' }
-            };
+        var incomeOptions = {
+            title: 'Income Curve Graph',
+            curveType: 'function',
+            legend: { position: 'bottom' },
+            hAxis: {
+                format: 'MMM yyyy' // Format the x-axis label as Month and Year (e.g., Jan 2023)
+            }
+        };
 
-            var incomeChart = new google.visualization.LineChart(document.getElementById('incomeCurveGraph'));
-            incomeChart.draw(incomeData, incomeOptions);
+        var expenditureOptions = {
+            title: 'Expenditure Curve Graph',
+            curveType: 'function',
+            legend: { position: 'bottom' },
+            hAxis: {
+                format: 'MMM yyyy' // Format the x-axis label as Month and Year (e.g., Jan 2023)
+            }
+        };
 
-            var expenditureChart = new google.visualization.LineChart(document.getElementById('expenditureCurveGraph'));
-            expenditureChart.draw(expenditureData, expenditureOptions);
-        }
-    </script>
+        var incomeChart = new google.visualization.LineChart(document.getElementById('incomeCurveGraph'));
+        incomeChart.draw(incomeData, incomeOptions);
+
+        var expenditureChart = new google.visualization.LineChart(document.getElementById('expenditureCurveGraph'));
+        expenditureChart.draw(expenditureData, expenditureOptions);
+    }
+</script>
+
 </body>
 
 </html>

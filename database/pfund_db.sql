@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 25, 2023 at 09:52 AM
+-- Generation Time: Jul 25, 2023 at 10:04 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -46,7 +46,8 @@ CREATE TABLE `expenditure` (
 CREATE TABLE `ex_category` (
   `id` int(11) NOT NULL,
   `description` varchar(100) NOT NULL,
-  `amount` decimal(10,2) NOT NULL
+  `amount` decimal(10,2) NOT NULL,
+  `UserID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -94,19 +95,22 @@ INSERT INTO `users` (`UserID`, `username`, `name`, `email`, `phone`, `password`)
 -- Indexes for table `expenditure`
 --
 ALTER TABLE `expenditure`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_expenditure_user` (`UserID`);
 
 --
 -- Indexes for table `ex_category`
 --
 ALTER TABLE `ex_category`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_ex_category_user` (`UserID`);
 
 --
 -- Indexes for table `income`
 --
 ALTER TABLE `income`
-  ADD PRIMARY KEY (`Id`);
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `fk_income_user` (`UserID`);
 
 --
 -- Indexes for table `users`
@@ -141,6 +145,28 @@ ALTER TABLE `income`
 --
 ALTER TABLE `users`
   MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `expenditure`
+--
+ALTER TABLE `expenditure`
+  ADD CONSTRAINT `fk_expenditure_user` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`);
+
+--
+-- Constraints for table `ex_category`
+--
+ALTER TABLE `ex_category`
+  ADD CONSTRAINT `fk_ex_category_user` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`);
+
+--
+-- Constraints for table `income`
+--
+ALTER TABLE `income`
+  ADD CONSTRAINT `fk_income_user` FOREIGN KEY (`UserID`) REFERENCES `users` (`UserID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
