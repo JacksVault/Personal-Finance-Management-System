@@ -134,6 +134,7 @@ $budgetData = getBudgetData($db_conn);
             <li><a href="income_form.php">Capture Income</a></li>
             <li><a href="expense_form.php">Capture Expenditure</a></li>
             <li><a href="budget_form.php">Capture Budget</a></li>
+            <li><a href="reports.php">View Reports</a></li>
             <li><a href="index.php?logout=true">Logout</a></li>
         </ul>
     </div>
