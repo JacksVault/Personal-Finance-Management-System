@@ -27,8 +27,8 @@ function getTotalExpenditure($db_conn)
 
 // Check if the user is logged in
 if (isset($_SESSION['user_id'])) {
-    // User is logged in, redirect to the dashboard
-    header("Location: dashboard.php");
+    // User is logged in, redirect to the index
+    header("Location: index.php");
     exit;
 }
 
@@ -46,14 +46,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user && password_verify($login_password, $user['password'])) {
-        // Set user session and redirect to dashboard
+        // Set user session data
         $_SESSION['user_id'] = $user['UserID'];
-        header("Location: dashboard.php");
+        $_SESSION['username'] = $user['username'];
+
+        // Redirect to dashboard
+        header("Location: index.php");
         exit;
     } else {
         $login_error = "Invalid username or password.";
     }
 }
+
 
 // Handle user registration
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
@@ -78,9 +82,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
         $stmt->bindParam(':password', $hashedPassword);
         $stmt->execute();
 
-        // Registration successful, set user session and redirect to dashboard
+        // Registration successful, set user session and redirect to index
         $_SESSION['user_id'] = $db_conn->lastInsertId();
-        header("Location: dashboard.php");
+        header("Location: index.php");
         exit;
     } catch (PDOException $e) {
         // Display error message if registration fails
