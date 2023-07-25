@@ -85,14 +85,15 @@ if (isset($_GET['logout'])) {
             </tbody>
         </table>
 
-        <h2>Navigation Links:</h2>
+        <div class="navbar">
         <ul>
-            <li><a href="income_form.php">Capture Income</a></li>
-            <li><a href="expense_form.php">Capture Expenditure</a></li>
-            <li><a href="budget_form.php">Capture Budget</a></li>
-            <li><a href="reports.php">View Reports</a></li>
-            <li><a href="index.php?logout=true">Logout</a></li>
+            <li><a href="income_form.php"><i class="fas fa-plus"></i>Capture Income</a></li>
+            <li><a href="expense_form.php"><i class="fas fa-money-bill"></i>Capture Expenditure</a></li>
+            <li><a href="budget_form.php"><i class="fas fa-chart-pie"></i>Capture Budget</a></li>
+            <li><a href="reports.php"><i class="fas fa-chart-line"></i>View Reports</a></li>
+            <li><a href="index.php?logout=true"><i class="fas fa-sign-out-alt"></i>Logout</a></li>
         </ul>
+    </div>
     </div>
 
     <!-- Add your additional HTML content here -->
@@ -101,6 +102,9 @@ if (isset($_GET['logout'])) {
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="style.css">
+
 </body>
 
 </html>

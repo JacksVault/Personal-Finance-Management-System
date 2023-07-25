@@ -1,0 +1,43 @@
+/* CSS for the fixed navigation bar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333; /* Change this to your desired background color */
+  color: #fff; /* Change this to your desired text color */
+  padding: 10px;
+  z-index: 1000; /* Make sure the navigation bar is above other elements */
+}
+
+.navbar ul {
+  list-style: none; /* Remove default list styles */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center; /* Align the items vertically in the center */
+}
+
+.navbar li {
+  margin-right: 20px;
+}
+
+.navbar li:last-child {
+  margin-right: 0;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: bold;
+}
+
+/* Style the icons using Font Awesome classes */
+.navbar i {
+  margin-right: 5px;
+}
+
+/* Add padding to the body to avoid content overlapping with the fixed navigation bar */
+body {
+  padding-top: 70px; /* Adjust this value as needed */
+}
